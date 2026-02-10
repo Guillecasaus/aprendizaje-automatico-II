@@ -495,6 +495,341 @@ Para cada caso, entregar:
 - ¿Qué mejoras futuras considerariamos?
 ```
 
+### Solución Ejercicio 4
+
+## Caso A: Generador de Emails de Seguimiento
+
+### Prompt Diseñado
+
+```
+Eres un Sales Development Representative (SDR) experto con 10 años de experiencia en ventas B2B de software empresarial. Tu especialidad es escribir emails de seguimiento que mantienen el momentum sin ser intrusivos.
+
+Contexto:
+Acabas de finalizar una demo de producto con un prospecto. Necesitas enviar un email de seguimiento personalizado que refuerce los puntos fuertes discutidos, aborde las objeciones de manera constructiva y mantenga el proceso de venta avanzando.
+
+Tarea:
+Genera un email de seguimiento profesional y personalizado.
+
+Input que recibirás:
+- Nombre del prospecto: [NOMBRE]
+- Empresa: [EMPRESA]
+- Puntos discutidos: [LISTA]
+- Objeciones mencionadas: [LISTA]
+- Siguiente paso acordado: [ACCIÓN]
+
+Formato de salida:
+Asunto: [línea de asunto personalizada, max 60 caracteres]
+
+[Saludo personalizado]
+
+[Párrafo 1: Agradecimiento y referencia específica a algo discutido]
+
+[Párrafo 2: Refuerzo de beneficios relevantes para sus necesidades]
+
+[Párrafo 3: Abordaje de objeciones de forma constructiva con evidencia/datos]
+
+[Párrafo 4: Siguiente paso claro con fecha específica]
+
+[Despedida profesional]
+
+Restricciones:
+- Tono: Profesional pero cálido, consultivo no agresivo
+- Longitud: 150-200 palabras (sin contar asunto y firma)
+- NO uses: "solo quería", "disculpa por molestar", "espero no ser pesado"
+- EVITA: lenguaje demasiado comercial o presión excesiva
+- INCLUYE: Al menos una pregunta abierta o un dato específico mencionado en la demo
+- Personalización mínima: 3 referencias específicas a la conversación
+
+Formato técnico:
+- Usar saltos de línea entre párrafos
+- Negrita en fechas/acciones específicas
+- Un solo call-to-action claro
+```
+
+### Justificación de Decisiones
+
+- **¿Por qué elegimos este rol?** SDR experimentado proporciona el contexto y expertise necesarios para generar emails que balanceen persuasión con profesionalismo, evitando tono amateur o demasiado agresivo.
+
+- **¿Qué contexto incluimos y por qué?** Contexto post-demo es crucial porque establece la relación existente y el momento del customer journey. Esto permite al modelo generar contenido apropiado para esta fase específica (no es cold email ni cierre final).
+
+- **¿Por qué este formato de salida?** Estructura de 4 párrafos sigue best practices de sales emails: establecer rapport, reforzar valor, manejar objeciones, llamado a acción. Asunto personalizado mejora open rates. Formato técnico asegura legibilidad.
+
+- **¿Qué restricciones añadimos?** 
+  - Longitud controlada (150-200 palabras) previene emails largos que no se leen
+  - Prohibición de frases débiles mantiene autoridad profesional
+  - Requisito de 3 referencias personalizadas evita emails genéricos
+  - Un solo CTA previene confusión sobre siguiente paso
+
+### Limitaciones Identificadas
+
+- **Casos edge que podrían fallar:**
+  - Demos muy negativas donde no hubo engagement real
+  - Objeciones fundamentales que realmente bloquean la venta (ej: "no tenemos presupuesto")
+  - Prospectos que pidieron explícitamente no recibir seguimiento
+  - Industrias altamente reguladas donde compliance importa (healthcare, finance)
+  - Culturas empresariales muy diferentes (emails formales vs casuales)
+
+- **Mejoras futuras:**
+  - Añadir parámetro de "temperatura" de la relación (cálida/fría) para ajustar tono
+  - Incluir plantilla de respuesta FAQ para objeciones comunes
+  - Sistema de A/B testing de líneas de asunto
+  - Integración con CRM para contexto histórico
+  - Variantes por industria/sector
+  - Detección de señales de compra para priorizar seguimiento
+
+---
+
+## Caso B: Resumidor de Reuniones
+
+### Prompt Diseñado
+
+```
+Eres un asistente ejecutivo profesional especializado en sintetizar información de reuniones corporativas de manera clara, accionable y objetiva.
+
+Contexto:
+Trabajas en una empresa tecnológica donde el tiempo es valioso y las decisiones necesitan documentación clara. Tu tarea es convertir transcripciones largas de reuniones en resúmenes estructurados que permitan a los participantes (y ausentes) entender rápidamente qué se decidió y qué necesita hacerse.
+
+Tarea:
+Genera un resumen ejecutivo estructurado de una transcripción de reunión.
+
+Input que recibirás:
+- Transcripción: [TEXTO LARGO]
+- Participantes: [LISTA DE NOMBRES]
+
+Formato de salida:
+
+# Resumen de Reunión
+**Fecha:** [Extraer de transcripción o usar "fecha no especificada"]
+**Participantes:** [Lista]
+**Duración:** [Estimar basado en transcripción]
+
+## Resumen Ejecutivo (3-5 oraciones)
+[Captura la esencia: ¿de qué fue la reunión? ¿Qué se logró?]
+
+## Decisiones Tomadas
+1. [Decisión 1 - ser específico y concreto]
+2. [Decisión 2]
+   - Contexto adicional si relevante
+[Continuar...]
+
+## Action Items
+| Tarea | Responsable | Fecha Límite | Prioridad |
+|-------|-------------|--------------|----------|
+| [Descripción específica] | [Nombre] | [Fecha o "No especificada"] | Alta/Media/Baja |
+
+## Temas Pendientes / Próximos Pasos
+- [Tema que quedó sin resolver]
+- [Preguntas abiertas]
+- [Seguimientos necesarios]
+
+## Notas Adicionales
+[Información contextual relevante, compromisos mencionados, preocupaciones expresadas]
+
+Restricciones:
+- Sé objetivo: reporta lo discutido, no interpretes intenciones
+- Sé conciso: elimina repeticiones y tangentes
+- Sé específico: "Aprobar presupuesto de $50K" no "hablar de dinero"
+- Respeta confidencialidad: marca información sensible con [CONFIDENCIAL]
+- Si algo no queda claro en la transcripción, indica [REQUIERE CLARIFICACIÓN]
+- Acción items deben ser verbos de acción específicos
+- Si no se mencionó fecha límite, usa "Por definir" no inventes fechas
+- Prioridad basada en urgencia/importancia mencionada en reunión
+- Resumen ejecutivo debe ser comprensible sin leer el resto
+
+Criterios de calidad:
+- Un ejecutivo debe poder leer solo el resumen ejecutivo y action items (30 segundos) y captar lo esencial
+- Participantes ausentes deben poder ponerse al día completamente
+- Formato consistente para integración con herramientas de gestión
+```
+
+### Justificación de Decisiones
+
+- **¿Por qué elegimos este rol?** "Asistente ejecutivo profesional" implica expertise en síntesis, neutralidad y comprensión de dinámicas corporativas. No es un participante con agenda, sino un facilitador objetivo.
+
+- **¿Qué contexto incluimos y por qué?** Contexto corporativo tecnológico establece expectativas de formato y nivel de detalle. Énfasis en "accionable" alinea con cultura de ejecución. Mencionar documentación clara establece estándar de calidad.
+
+- **¿Por qué este formato de salida?** 
+  - Resumen ejecutivo primero (pirámide invertida) para ejecutivos ocupados
+  - Separación clara de decisiones vs action items (diferente naturaleza)
+  - Tabla para action items facilita tracking y exportación a project management tools
+  - Temas pendientes previene que cosas importantes se pierdan
+  - Estructura escalable para reuniones de diferente tipo/longitud
+
+- **¿Qué restricciones añadimos?**
+  - Objetividad previene sesgo o spin
+  - Especificidad evita ambigüedad que causa malentendidos
+  - Manejo explícito de información faltante previene alucinaciones
+  - No inventar fechas mantiene integridad del resumen
+  - Criterios de calidad establecen estándar de éxito medible
+
+### Limitaciones Identificadas
+
+- **Casos edge que podrían fallar:**
+  - Reuniones altamente técnicas con jerga específica que el modelo no comprende
+  - Discusiones con mucho conflicto donde es difícil determinar qué se decidió realmente
+  - Referencias a contexto previo no disponible en la transcripción
+  - Transcripciones con errores de reconocimiento de voz que cambian significado
+  - Reuniones donde se habló de muchos temas sin estructura clara
+  - Conversaciones con mucha ironía o sarcasmo difícil de detectar en texto
+  - Identificación incorrecta de speakers en transcripción
+
+- **Mejoras futuras:**
+  - Template personalizado por tipo de reunión (1:1, sprint planning, all-hands)
+  - Integración con calendarios para auto-completar fecha/hora
+  - Detección de sentimiento para identificar preocupaciones no explícitas
+  - Linking automático de action items a sistemas de tickets
+  - Identificación de riesgos o blockers mencionados
+  - Comparación con notas de reunión anterior para tracking de follow-up
+  - Resaltar compromisos no cumplidos de reuniones previas
+  - Extracción de métricas y KPIs mencionados
+
+---
+
+## Caso C: Revisor de Código Automatizado
+
+### Prompt Diseñado
+
+```
+Eres un Senior Software Engineer y Code Reviewer experto con 15 años de experiencia en múltiples lenguajes y frameworks. Tu especialidad es identificar problemas de calidad, seguridad, rendimiento y mantenibilidad en code reviews.
+
+Contexto:
+Formas parte de un proceso de CI/CD donde tus reviews automatizadas ayudan a mantener estándares de calidad antes de la revisión humana. Tu objetivo es identificar issues reales, no ser pedante con estilo si no afecta funcionalmente.
+
+Tarea:
+Realiza un code review constructivo y accionable del código proporcionado.
+
+Input que recibirás:
+- Código fuente: [CÓDIGO]
+- Lenguaje: [LENGUAJE]
+- Estándares del equipo: [OPCIONAL - reglas específicas]
+
+Formato de salida:
+
+# Code Review Report
+
+## Resumen
+**Archivos revisados:** [número]
+**Issues encontrados:** [número total]
+**Severidad general:** CRÍTICO / ADVERTENCIA / APROBADO CON SUGERENCIAS
+
+## Issues Identificados
+
+### [CRÍTICO] (Bloquean merge)
+**Issue #1: [Título descriptivo]**
+- **Ubicación:** Línea X-Y o función/clase específica
+- **Problema:** [Descripción clara del issue]
+- **Impacto:** [Por qué es problemático]
+- **Solución recomendada:**
+```[lenguaje]
+[código corregido]
+```
+- **Recursos:** [Link a documentación si relevante]
+
+### [ADVERTENCIA] (Recomendado corregir)
+[Mismo formato]
+
+### [SUGERENCIA] (Mejoras opcionales)
+[Mismo formato]
+
+## Aspectos Positivos
+- [Mencionar qué está bien hecho - code review constructivo]
+
+## Recomendaciones Generales
+[Patrones detectados, riesgos arquitectónicos, sugerencias de refactoring]
+
+---
+
+Categorías de Issues a buscar (prioridad en orden):
+
+**CRÍTICOS (Severidad Alta):**
+1. Vulnerabilidades de seguridad (SQL injection, XSS, secrets hardcoded)
+2. Memory leaks, race conditions, deadlocks
+3. Lógica incorrecta que causa bugs funcionales
+4. Manejo inadecuado de errores que puede causar crashes
+5. Violaciones de privacidad/cumplimiento (GDPR, PCI)
+
+**ADVERTENCIAS (Severidad Media):**
+1. Problemas de rendimiento evidentes (O(n²) donde existe O(n))
+2. Código duplicado extenso (violación DRY)
+3. Funciones muy largas/complejas (>50 líneas, alta ciclomática)
+4. Falta de manejo de errores
+5. Dependencias no seguras/deprecadas
+6. Tests faltantes para nueva funcionalidad
+7. Violaciones de principios SOLID evidentes
+
+**SUGERENCIAS (Severidad Baja):**
+1. Nombres de variables poco descriptivos
+2. Comentarios faltantes en lógica compleja
+3. Optimizaciones de código
+4. Mejoras de legibilidad
+5. Patrones más idiomáticos del lenguaje
+
+Restricciones:
+- NO seas pedante con estilo si sigue convenciones del lenguaje
+- NO sugieras cambios que no mejoran significativamente el código
+- NO asumas bugs sin evidencia clara
+- SÍ proporciona código corregido, no solo descripción del problema
+- SÍ explica el "por qué" no solo el "qué"
+- SÍ reconoce código bien escrito
+- Limita a máximo 10 issues (prioriza por severidad)
+- Si el código tiene >10 issues, agrupa similares
+- Tono: Profesional, constructivo, educativo
+
+Contexto del lenguaje:
+- Si es JavaScript/TypeScript: considerar uso de TypeScript, async/await patterns
+- Si es Python: PEP 8, type hints, context managers
+- Si es Java: streams modernos, Optional, inmutabilidad
+- [Adaptar según lenguaje]
+
+Output adicional si solicitado:
+- Código completo corregido (solo si se pide explícitamente)
+- Score de calidad (1-10) con justificación
+```
+
+### Justificación de Decisiones
+
+- **¿Por qué elegimos este rol?** Senior Engineer con experiencia establece credibilidad y asegura que el modelo priorice issues reales sobre nitpicking. "15 años" le da licencia para hacer observaciones arquitectónicas.
+
+- **¿Qué contexto incluimos y por qué?** Contexto de CI/CD establece que esto es pre-human review, justificando automatización. "Identificar issues reales, no ser pedante" es crítico porque LLMs tienden a ser excesivamente críticos con estilo.
+
+- **¿Por qué este formato de salida?**
+  - Severidades claras permiten priorización visual rápida
+  - Código corregido incluido reduce friction para el desarrollador
+  - "Aspectos positivos" mantiene el review constructivo, no solo crítico
+  - Agrupación por severidad facilita triage
+  - Links a recursos son educativos para juniors
+
+- **¿Qué restricciones añadimos?**
+  - Lista priorizada de categorías de issues asegura focus en lo importante
+  - Límite de 10 issues previene review abrumador
+  - Prohibición de pedantería de estilo reduce false positives
+  - Requisito de código corregido asegura que suggestions son accionables
+  - Tono constructivo mantiene moral del equipo
+
+### Limitaciones Identificadas
+
+- **Casos edge que podrían fallar:**
+  - Código con contexto arquitectónico complejo que requiere conocer todo el sistema
+  - Performance issues que dependen de datos reales (tamaño datasets, etc.)
+  - Bugs sutiles que requieren ejecutar el código con tests específicos
+  - Código usando frameworks/librerías muy nuevos no en training data
+  - Issues de concurrencia/threading que requieren análisis profundo
+  - Problemas que solo aparecen en producción (race conditions raros)
+  - Código ofuscado o con patrones muy no convencionales
+  - False negatives en security si usa técnicas evasivas
+
+- **Mejoras futuras:**
+  - Integración con static analysis tools (ESLint, SonarQube) para combinar resultados
+  - Acceso a test suite para verificar cobertura
+  - Acceso a documentación del proyecto para contexto arquitectónico
+  - Historical analysis (este código ha causado bugs antes?)
+  - Performance profiling real, no solo análisis de complejidad teórica
+  - Learning de reviews previos del equipo para alinear con preferencias
+  - Auto-fix con tests de regresión automatizados
+  - Detección de código duplicado en toda la codebase
+  - Integration con security scanning tools
+  - Customización por proyecto (reglas específicas por repo)
+
 ---
 
 ## Ejercicio 5: Identificación de Anti-patrones
@@ -525,10 +860,43 @@ mal y que me des algunas sugerencias de mejora y que sea rápido porque
 tengo prisa.
 ```
 
-**Anti-patrón identificado:** ________________
+**Anti-patrón identificado:** Run-on sentence / Falta de estructura / Múltiples tareas sin priorizar
+
 **Versión corregida:**
 ```
-[Tu corrección aquí]
+Eres un desarrollador senior experto en depuración de código.
+
+Problema: El siguiente código no funciona como esperado.
+
+Código:
+[INSERTAR CÓDIGO AQUÍ]
+
+Error observado:
+[DESCRIPCIÓN DEL ERROR - ej: "Devuelve undefined en lugar del valor esperado"]
+
+Contexto:
+- Lenguaje: [LENGUAJE]
+- Framework: [SI APLICA]
+- Lo que debería hacer: [COMPORTAMIENTO ESPERADO]
+
+Tarea:
+1. Identifica los errores en el código
+2. Proporciona el código corregido
+3. Explica brevemente qué estaba mal (2-3 oraciones)
+4. Sugiere 1-2 mejoras adicionales de calidad
+
+Formato:
+## Errores Encontrados
+[Lista]
+
+## Código Corregido
+[Código]
+
+## Explicación
+[Texto]
+
+## Sugerencias
+[Lista]
 ```
 
 ### Prompt 2
@@ -536,10 +904,34 @@ tengo prisa.
 Escribe un artículo muy detallado pero breve sobre inteligencia artificial.
 ```
 
-**Anti-patrón identificado:** ________________
+**Anti-patrón identificado:** Contradicción / Requisitos mutuamente excluyentes
+
 **Versión corregida:**
 ```
-[Tu corrección aquí]
+Escribe un artículo introductorio sobre inteligencia artificial.
+
+Audiencia: Profesionales no técnicos interesados en entender aplicaciones prácticas de IA
+
+Longitud: 800-1000 palabras
+
+Estructura requerida:
+1. Introducción: ¿Qué es IA? (2-3 párrafos)
+2. Tipos principales: IA estrecha vs AGI (2 párrafos)
+3. Aplicaciones actuales: 3-4 ejemplos concretos (3 párrafos)
+4. Implicaciones futuras: Oportunidades y desafíos (2 párrafos)
+5. Conclusión (1 párrafo)
+
+Tono: Informativo, accesible, evita jerga técnica excesiva
+
+Incluye:
+- Al menos 3 ejemplos concretos de uso actual
+- Una analogía para explicar machine learning
+- Referencias a empresas/productos reales
+
+Evita:
+- Términos demasiado técnicos sin explicación
+- Hype o predicciones sensacionalistas
+- Más de 1000 palabras
 ```
 
 ### Prompt 3
@@ -547,10 +939,34 @@ Escribe un artículo muy detallado pero breve sobre inteligencia artificial.
 Continúa con lo que estábamos haciendo antes.
 ```
 
-**Anti-patrón identificado:** ________________
+**Anti-patrón identificado:** Falta de contexto / Dependencia de memoria de conversación
+
 **Versión corregida:**
 ```
-[Tu corrección aquí]
+Continúa escribiendo la función de Python que estábamos desarrollando para procesar datos de usuarios.
+
+Contexto:
+Estábamos creando una función `process_user_data()` que:
+- Recibe una lista de diccionarios con información de usuarios
+- Valida que cada usuario tenga email y edad
+- Filtra usuarios menores de 18 años
+- Devuelve lista de usuarios válidos
+
+Código hasta ahora:
+```python
+def process_user_data(users):
+    validated_users = []
+    for user in users:
+        if 'email' in user and 'age' in user:
+            # [CONTINUAMOS DESDE AQUÍ]
+```
+
+Tarea:
+Completa la función añadiendo:
+1. Validación de edad (>= 18)
+2. Validación básica de formato email (contiene @)
+3. Manejo de excepciones para edad no numérica
+4. Return de la lista de usuarios validados
 ```
 
 ### Prompt 4
@@ -560,10 +976,38 @@ pero de forma ética para mejorar la seguridad pero sin que sea ilegal
 pero que funcione de verdad.
 ```
 
-**Anti-patrón identificado:** ________________
+**Anti-patrón identificado:** Solicitud ambigua con implicaciones éticas / Mezcla de conceptos contradictorios
+
 **Versión corregida:**
 ```
-[Tu corrección aquí]
+Eres un especialista en ciberseguridad y ethical hacking certificado (CEH).
+
+Contexto:
+Trabajo como consultor de seguridad y necesito entender metodologías de pentesting legales para auditorías autorizadas.
+
+Tarea:
+Explica el proceso profesional de pentesting ético, enfocándote en:
+
+1. **Fase de autorización**
+   - Qué documentación legal se necesita antes de comenzar
+   - Scope y reglas de engagement
+
+2. **Metodología de reconnaissance**
+   - Técnicas de reconocimiento pasivo (OSINT)
+   - Herramientas legales para mapeo de red
+
+3. **Mejores prácticas**
+   - Diferencia entre pentesting autorizado vs actividad ilegal
+   - Frameworks estándar (OWASP, PTES)
+
+4. **Reporte de vulnerabilidades**
+   - Cómo documentar findings
+   - Disclosure responsable
+
+Formato: Guía educativa (300-400 palabras)
+Tono: Profesional, enfocado en legalidad y ética
+
+NOTA: Solo cubre técnicas usadas en contextos autorizados y legales. No proporciones métodos para acceso no autorizado.
 ```
 
 ### Prompt 5
@@ -571,21 +1015,38 @@ pero que funcione de verdad.
 Dame información.
 ```
 
-**Anti-patrón identificado:** ________________
+**Anti-patrón identificado:** Extremadamente vago / Sin contexto ni objetivo
+
 **Versión corregida:**
 ```
-[Tu corrección aquí]
+Proporciona información sobre los fundamentos de prompt engineering para LLMs.
+
+Contexto: Estoy comenzando a trabajar con APIs de LLMs y necesito entender conceptos básicos.
+
+Específicamente, explica:
+1. ¿Qué es prompt engineering? (definición en 2-3 oraciones)
+2. Componentes principales de un buen prompt (lista con ejemplos breves)
+3. Diferencia entre zero-shot, one-shot y few-shot prompting
+4. 3 errores comunes al escribir prompts
+
+Formato:
+- Explicaciones concisas (párrafos de 3-4 oraciones)
+- Un ejemplo práctico para cada concepto
+- Bullet points para listas
+
+Longitud: 400-500 palabras total
+Audiencia: Desarrollador con experiencia general pero nuevo en LLMs
 ```
 
 ### Tabla Resumen
 
 | # | Anti-patrón | Solución Aplicada |
 |---|-------------|-------------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
+| 1 | Run-on sentence sin estructura | Separar en componentes claros: rol, contexto, tarea, formato. Una solicitud por etapa |
+| 2 | Contradicción (detallado Y breve) | Definir longitud específica, estructura clara, eliminar ambigüedad |
+| 3 | Falta de contexto | Incluir todo el contexto necesario explícitamente, no asumir memoria |
+| 4 | Solicitud éticamente ambigua | Reformular con enfoque legítimo claro, añadir restricciones éticas explícitas |
+| 5 | Extremadamente vago | Especificar tema exacto, audiencia, formato, longitud y componentes deseados |
 
 ---
 
@@ -616,3 +1077,244 @@ Documento (1-2 páginas) con:
 - Reflexión sobre utilidad y limitaciones
 
 O bien, puedes entregar este .md completado con tus respuestas.
+
+---
+
+### Solución Ejercicio Extra
+
+## Prompt para Generación de Resúmenes de Papers Académicos
+
+### 1. Descripción de la Tarea
+
+Como estudiante de Aprendizaje Automático II, frecuentemente necesito leer y resumir papers académicos para revisiones de literatura, preparación de presentaciones y estudio de conceptos avanzados. Leer un paper completo puede tomar 2-3 horas, y necesito extraer los puntos clave rápidamente para decidir si vale la pena una lectura profunda. Los abstracts a menudo son muy técnicos o demasiado breves, y no siempre destacan las contribuciones prácticas o limitaciones del trabajo.
+
+### 2. Inputs Disponibles
+
+- Título del paper
+- Abstract del paper
+- Información de autores y año
+- Venue (conferencia/journal) - opcional
+- Introducción y secciones clave - opcional si están disponibles
+
+### 3. Outputs Deseados
+
+- Resumen ejecutivo comprensible sin jerga excesiva
+- Contribuciones principales del paper
+- Metodología explicada de forma simple
+- Resultados clave con métricas
+- Limitaciones identificadas
+- Aplicabilidad práctica para proyectos
+- Valoración de si vale la pena lectura completa
+
+### 4. Prompt Final (Iteración 3)
+
+```
+Eres un investigador senior en Machine Learning y AI con expertise en revisar literatura académica y sintetizar información compleja de manera accesible para estudiantes de posgrado.
+
+Contexto:
+Eres un asistente de investigación que ayuda a estudiantes a evaluar rápidamente papers académicos para decidir cuáles merecen lectura profunda y para preparar revisiones de literatura.
+
+Tarea:
+Genera un resumen estructurado y crítico del siguiente paper académico.
+
+Input:
+Título: [TÍTULO]
+Autores: [AUTORES]
+Año: [AÑO]
+Venue: [CONFERENCIA/JOURNAL]
+
+Abstract:
+[ABSTRACT COMPLETO]
+
+[OPCIONAL - Si disponible:]
+Introducción: [TEXTO]
+Metodología: [TEXTO]
+Resultados: [TEXTO]
+
+---
+
+Formato de salida:
+
+# Resumen de Paper: [Título abreviado]
+
+## TL;DR (1-2 oraciones)
+[Captura la esencia: ¿qué problema resuelve y cómo?]
+
+## Contribuciones Principales
+1. [Contribución 1 - específica y concreta]
+2. [Contribución 2]
+3. [Contribución 3]
+
+## Metodología Explicada
+[Explica el approach en 3-4 oraciones sin jerga excesiva]
+- **Tipo de modelo/técnica:** [ej: Transformer, GAN, RL, etc.]
+- **Datasets usados:** [nombres y tamaños]
+- **Innovación clave:** [qué hace diferente a trabajos previos]
+
+## Resultados Clave
+| Métrica | Valor | Contexto |
+|---------|-------|----------|
+| [Métrica 1] | [Valor] | [Comparación con baseline/SOTA] |
+| [Métrica 2] | [Valor] | [Significancia] |
+
+**Insight principal:** [1-2 oraciones sobre el resultado más importante]
+
+## Limitaciones Identificadas
+- [Limitación 1 - ej: solo funciona en datasets pequeños]
+- [Limitación 2 - ej: asume distribución específica]
+- [Limitación 3 - ej: alto costo computacional]
+
+## Aplicabilidad Práctica
+**¿Para qué me sirve en mis proyectos?**
+- [Caso de uso práctico 1]
+- [Caso de uso práctico 2]
+
+**Dificultad de implementación:** Baja / Media / Alta
+**Razón:** [breve justificación]
+
+## Papers Relacionados Mencionados
+- [Paper clave 1] - [por qué es relevante]
+- [Paper clave 2] - [por qué es relevante]
+
+## Preguntas/Áreas para Investigar Más
+- [Pregunta 1 que el paper deja abierta o que sería interesante explorar]
+- [Pregunta 2]
+
+## Valoración Personal
+**Novedad:** [1-5 estrellas]
+**Claridad:** [1-5 estrellas]
+**Aplicabilidad:** [1-5 estrellas]
+**Rigor científico:** [1-5 estrellas]
+
+**¿Vale la pena lectura completa?** Sí / No / Depende
+**Razón:** [1-2 oraciones explicando]
+
+---
+
+Restricciones:
+- Longitud total: 300-500 palabras (excluyendo tablas)
+- Nivel de explicación: Asume conocimiento de ML básico pero no expertise en el subtema
+- NO uses jerga sin explicarla brevemente
+- SÍ sé honesto sobre limitaciones
+- SÍ contextualiza resultados (¿es mejora incremental o breakthrough?)
+- Tono: Académico pero accesible, crítico pero constructivo
+- Si el abstract no proporciona información suficiente para alguna sección, indica [NO DISPONIBLE EN ABSTRACT]
+
+Criterios de calidad:
+- Un estudiante debe poder decidir en 2 minutos si leer el paper completo
+- Debe destacar tanto fortalezas como debilidades
+- Debe ser accionable (cómo usar esta investigación)
+```
+
+### 5. Ejemplo de Uso
+
+**Input:**
+```
+Título: "Attention Is All You Need"
+Autores: Vaswani et al.
+Año: 2017
+Venue: NeurIPS
+
+Abstract:
+The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the existing best results, including ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature.
+```
+
+**Output generado:**
+
+```
+# Resumen de Paper: Attention Is All You Need
+
+## TL;DR
+Propone la arquitectura Transformer que elimina completamente RNNs/CNNs y se basa únicamente en mecanismos de atención, logrando SOTA en traducción automática con entrenamiento más rápido y paralelizable.
+
+## Contribuciones Principales
+1. Primera arquitectura de transducción de secuencias basada únicamente en atención (sin recurrencia)
+2. Mecanismo de "self-attention" multi-head que captura dependencias a largo plazo
+3. Entrenamiento masivamente paralelo (vs secuencial de RNNs) reduciendo tiempo de entrenamiento
+4. Nueva SOTA en WMT 2014 EN-DE (28.4 BLEU) y EN-FR (41.8 BLEU)
+
+## Metodología Explicada
+Reemplaza capas recurrentes con stacks de "self-attention" y feed-forward networks. El mecanismo de atención calcula relaciones entre todas las posiciones de la secuencia en paralelo, permitiendo capturar dependencias independientemente de la distancia. La arquitectura usa encoder-decoder con 6 capas cada uno y "multi-head attention" (8 cabezas) para capturar diferentes tipos de relaciones.
+
+- **Tipo de modelo/técnica:** Transformer (encoder-decoder con self-attention)
+- **Datasets usados:** WMT 2014 English-German (4.5M pares) y English-French (36M pares)
+- **Innovación clave:** Elimina completamente recurrencia, permitiendo paralelización total del entrenamiento
+
+## Resultados Clave
+| Métrica | Valor | Contexto |
+|---------|-------|----------|
+| BLEU EN-DE | 28.4 | +2.0 sobre SOTA anterior (incluye ensembles) |
+| BLEU EN-FR | 41.8 | Nueva SOTA single-model |
+| Tiempo de entrenamiento | 3.5 días (8 GPUs) | Fracción del costo de modelos anteriores |
+
+**Insight principal:** Logra mejor calidad que modelos recurrentes mientras entrena en una fracción del tiempo debido a paralelización completa.
+
+## Limitaciones Identificadas
+- Requiere hardware paralelo (GPUs/TPUs) para ser eficiente
+- Complejidad cuadrática O(n²) respecto a longitud de secuencia
+- No evaluado en tareas más allá de traducción automática en el paper original
+
+## Aplicabilidad Práctica
+**¿Para qué me sirve en mis proyectos?**
+- Base de TODOS los LLMs modernos (GPT, BERT, T5, etc.)
+- Cualquier tarea de secuencia a secuencia (traducción, summarization, Q&A)
+- Arquitectura fundamental para entender papers modernos de NLP
+
+**Dificultad de implementación:** Media
+**Razón:** Implementación from-scratch es compleja, pero librerías como PyTorch/HuggingFace proporcionan implementaciones listas.
+
+## Papers Relacionados Mencionados
+- [NO DISPONIBLE EN ABSTRACT - requiere lectura de sección de related work]
+
+## Preguntas/Áreas para Investigar Más
+- ¿Cómo escala a secuencias muy largas dado el O(n²)?
+- ¿Funciona en otros dominios (visión, audio, multimodal)?
+- ¿Cómo interpretar las attention heads?
+
+## Valoración Personal
+**Novedad:** 5 estrellas (Revolucionario - cambió el campo)
+**Claridad:** 4 estrellas (Bien escrito pero denso)
+**Aplicabilidad:** 5 estrellas (Base de toda NLP moderna)
+**Rigor científico:** 5 estrellas (Evaluación exhaustiva)
+
+**¿Vale la pena lectura completa?** Sí - LECTURA OBLIGATORIA
+**Razón:** Paper fundacional que todo estudiante de ML/NLP debe entender. La arquitectura Transformer es la base de GPT, BERT y todo LLM moderno.
+```
+
+### 6. Reflexión sobre Utilidad y Limitaciones
+
+**Utilidad obtenida:**
+
+1. **Ahorro de tiempo significativo:** Reduce evaluación inicial de paper de 30-45 mins a 2-3 mins
+2. **Decisiones informadas:** Puedo priorizar qué papers leer en profundidad para proyectos específicos
+3. **Preparación para reuniones:** Genera base para discusiones de grupo sobre papers
+4. **Memoria a largo plazo:** El formato estructurado sirve como referencia rápida semanas después
+5. **Identificación de gaps:** La sección de preguntas abiertas ayuda a identificar líneas de investigación
+
+**Limitaciones identificadas:**
+
+1. **Requiere abstract de calidad:** Si el abstract es vago o mal escrito, el resumen será limitado
+2. **Puede perder detalles críticos:** Detalles técnicos en metodología pueden ser simplificados excesivamente
+3. **Sesgos del modelo:** Podría no capturar limitaciones sutiles que un experto humano sí identificaría
+4. **Contexto histórico limitado:** No siempre captura la importancia histórica o el contexto del campo
+5. **Valoraciones subjetivas:** Las valoraciones son aproximaciones, no reemplazan criterio experto
+6. **No reemplaza lectura profunda:** Para implementación real, se requiere leer el paper completo
+
+**Casos donde es más útil:**
+- Revisión inicial de 20-30 papers para literatura review
+- Decidir qué papers presentar en journal clubs
+- Refrescar memoria de papers leídos hace tiempo
+
+**Casos donde NO es suficiente:**
+- Implementar la técnica exacta del paper
+- Escribir críticas académicas detalladas
+- Entender todas las ecuaciones y demostraciones
+- Papers con contribuciones altamente matemáticas
+
+**Mejoras futuras del prompt:**
+- Añadir sección de "reproducibilidad" (¿código disponible?)
+- Incluir extracción de ecuaciones clave
+- Generar preguntas de comprensión para auto-evaluación
+- Comparación automática con papers similares
+- Identificación de datasets/benchmarks utilizados
+- Estimación de impacto/citaciones esperadas
