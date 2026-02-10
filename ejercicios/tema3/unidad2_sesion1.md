@@ -60,12 +60,12 @@ Completa la siguiente tabla para cada prompt:
 
 | Componente | Prompt A | Prompt B | Prompt C |
 |------------|----------|----------|----------|
-| Rol | ✅ Experto en marketing digital para startups | ❌ No especificado | ❌ No especificado |
-| Contexto | ✅ Startup de software de gestión, nueva funcionalidad de videoconferencias | ❌ No proporcionado | ⚠️ Implícito (texto a traducir) |
-| Tarea | ✅ Escribir 3 posts para LinkedIn | ❌ Vago: "dame ideas" | ✅ Traducir y hacer más formal |
-| Formato | ✅ Longitud, estructura con emoji y CTA | ❌ No especificado | ⚠️ Parcial (formato de salida implícito) |
-| Restricciones | ✅ No mencionar competidores ni jerga técnica | ❌ Ninguna | ❌ Ninguna explícita |
-| Ejemplos | ❌ No incluye | ❌ No incluye | ✅ Incluye el texto a traducir |
+| Rol | Presente: Experto en marketing digital para startups | No especificado | No especificado |
+| Contexto | Presente: Startup de software de gestión, nueva funcionalidad de videoconferencias | No proporcionado | Implícito: texto a traducir |
+| Tarea | Presente: Escribir 3 posts para LinkedIn | Vago: "dame ideas" | Presente: Traducir y hacer más formal |
+| Formato | Presente: Longitud, estructura con emoji y CTA | No especificado | Parcial: formato de salida implícito |
+| Restricciones | Presente: No mencionar competidores ni jerga técnica | Ninguna | Ninguna explícita |
+| Ejemplos | No incluye | No incluye | Presente: Incluye el texto a traducir |
 | **Evaluación (1-10)** | **9/10** | **2/10** | **6/10** |
 
 ### Preguntas de Reflexión
@@ -153,11 +153,11 @@ Completa la tabla:
 
 | Reseña | Zero-shot | Few-shot | ¿Coinciden? |
 |--------|-----------|----------|-------------|
-| 1 | Positivo | Positivo | ✅ Sí |
-| 2 | Negativo | Negativo | ✅ Sí |
-| 3 | Neutro | Neutro | ✅ Sí |
-| 4 | Neutro / Positivo | Positivo | ⚠️ Puede variar |
-| 5 | Negativo | Negativo | ✅ Sí |
+| 1 | Positivo | Positivo | Sí |
+| 2 | Negativo | Negativo | Sí |
+| 3 | Neutro | Neutro | Sí |
+| 4 | Neutro / Positivo | Positivo | Puede variar |
+| 5 | Negativo | Negativo | Sí |
 
 ### Preguntas
 1. **¿Hubo diferencias en los resultados? ¿Cuáles?**
@@ -296,11 +296,11 @@ Formato de salida:
 **Respuesta obtenida:**
 "Sumérgete en tu música sin distracciones con los EchoBuds Pro X3. Estos auriculares inalámbricos ofrecen una experiencia de audio superior con tecnología de punta.
 
-• Cancelación de ruido activa para concentración total
-• 30 horas de batería con estuche de carga
-• Resistencia IPX5 contra agua y sudor
-• Conexión Bluetooth 5.3 estable
-• 3 tamaños de almohadillas para ajuste perfecto"
+- Cancelación de ruido activa para concentración total
+- 30 horas de batería con estuche de carga
+- Resistencia IPX5 contra agua y sudor
+- Conexión Bluetooth 5.3 estable
+- 3 tamaños de almohadillas para ajuste perfecto"
 
 **Mejora:** Estructura clara, más atractivo, pero aún falta personalización y CTA.
 
@@ -340,11 +340,11 @@ Enfócate en BENEFICIOS sobre características técnicas.
 
 Imagina trabajar desde casa, en la oficina o en el gimnasio sin que nada te distraiga. Los EchoBuds Pro X3 eliminan el ruido del mundo exterior para que te concentres en lo que importa. Con batería para más de una semana laboral, no volverás a quedarte sin música en el momento menos oportuno. Y cuando llueve o sudas en el gym, siguen funcionando perfectamente.
 
-✓ Silencia el mundo: Cancelación de ruido de nivel profesional
-✓ Olvídate de cargar: 30h de autonomía real
-✓ A prueba de todo: Certificación IPX5
-✓ Conexión perfecta: Bluetooth 5.3 sin cortes
-✓ Tu ajuste ideal: 3 tamaños incluidos"
+- Silencia el mundo: Cancelación de ruido de nivel profesional
+- Olvídate de cargar: 30h de autonomía real
+- A prueba de todo: Certificación IPX5
+- Conexión perfecta: Bluetooth 5.3 sin cortes
+- Tu ajuste ideal: 3 tamaños incluidos"
 
 **Mejora:** Mucho más persuasivo, enfocado en beneficios, conecta emocionalmente.
 
@@ -389,11 +389,11 @@ Restricciones:
 
 ¿Por qué pagar el doble por auriculares inalámbricos de alta gama? Los EchoBuds Pro X3 te ofrecen cancelación de ruido activa profesional, batería que dura toda la semana y resistencia total al agua, por menos de la mitad del precio de otras opciones premium. Perfectos para tu rutina diaria, desde el tren al gimnasio.
 
-✓ Concéntrate sin distracciones: Cancelación de ruido activa de nivel profesional
-✓ Batería para toda la semana: 30 horas reales de reproducción
-✓ Entrena sin preocupaciones: Certificación IPX5 contra agua y sudor  
-✓ Conexión estable siempre: Bluetooth 5.3 de última generación
-✓ Comodidad garantizada: 3 tamaños de almohadillas incluidos
+- Concéntrate sin distracciones: Cancelación de ruido activa de nivel profesional
+- Batería para toda la semana: 30 horas reales de reproducción
+- Entrena sin preocupaciones: Certificación IPX5 contra agua y sudor  
+- Conexión estable siempre: Bluetooth 5.3 de última generación
+- Comodidad garantizada: 3 tamaños de almohadillas incluidos
 
 Consigue la experiencia premium que mereces por solo 149.99€."
 
@@ -495,341 +495,6 @@ Para cada caso, entregar:
 - ¿Qué mejoras futuras considerariamos?
 ```
 
-### Solución Ejercicio 4
-
-## Caso A: Generador de Emails de Seguimiento
-
-### Prompt Diseñado
-
-```
-Eres un Sales Development Representative (SDR) experto con 10 años de experiencia en ventas B2B de software empresarial. Tu especialidad es escribir emails de seguimiento que mantienen el momentum sin ser intrusivos.
-
-Contexto:
-Acabas de finalizar una demo de producto con un prospecto. Necesitas enviar un email de seguimiento personalizado que refuerce los puntos fuertes discutidos, aborde las objeciones de manera constructiva y mantenga el proceso de venta avanzando.
-
-Tarea:
-Genera un email de seguimiento profesional y personalizado.
-
-Input que recibirás:
-- Nombre del prospecto: [NOMBRE]
-- Empresa: [EMPRESA]
-- Puntos discutidos: [LISTA]
-- Objeciones mencionadas: [LISTA]
-- Siguiente paso acordado: [ACCIÓN]
-
-Formato de salida:
-Asunto: [línea de asunto personalizada, max 60 caracteres]
-
-[Saludo personalizado]
-
-[Párrafo 1: Agradecimiento y referencia específica a algo discutido]
-
-[Párrafo 2: Refuerzo de beneficios relevantes para sus necesidades]
-
-[Párrafo 3: Abordaje de objeciones de forma constructiva con evidencia/datos]
-
-[Párrafo 4: Siguiente paso claro con fecha específica]
-
-[Despedida profesional]
-
-Restricciones:
-- Tono: Profesional pero cálido, consultivo no agresivo
-- Longitud: 150-200 palabras (sin contar asunto y firma)
-- NO uses: "solo quería", "disculpa por molestar", "espero no ser pesado"
-- EVITA: lenguaje demasiado comercial o presión excesiva
-- INCLUYE: Al menos una pregunta abierta o un dato específico mencionado en la demo
-- Personalización mínima: 3 referencias específicas a la conversación
-
-Formato técnico:
-- Usar saltos de línea entre párrafos
-- Negrita en fechas/acciones específicas
-- Un solo call-to-action claro
-```
-
-### Justificación de Decisiones
-
-- **¿Por qué elegimos este rol?** SDR experimentado proporciona el contexto y expertise necesarios para generar emails que balanceen persuasión con profesionalismo, evitando tono amateur o demasiado agresivo.
-
-- **¿Qué contexto incluimos y por qué?** Contexto post-demo es crucial porque establece la relación existente y el momento del customer journey. Esto permite al modelo generar contenido apropiado para esta fase específica (no es cold email ni cierre final).
-
-- **¿Por qué este formato de salida?** Estructura de 4 párrafos sigue best practices de sales emails: establecer rapport → reforzar valor → manejar objeciones → llamado a acción. Asunto personalizado mejora open rates. Formato técnico asegura legibilidad.
-
-- **¿Qué restricciones añadimos?** 
-  - Longitud controlada (150-200 palabras) previene emails largos que no se leen
-  - Prohibición de frases débiles mantiene autoridad profesional
-  - Requisito de 3 referencias personalizadas evita emails genéricos
-  - Un solo CTA previene confusión sobre siguiente paso
-
-### Limitaciones Identificadas
-
-- **Casos edge que podrían fallar:**
-  - Demos muy negativas donde no hubo engagement real
-  - Objeciones fundamentales que realmente bloquean la venta (ej: "no tenemos presupuesto")
-  - Prospectos que pidieron explícitamente no recibir seguimiento
-  - Industrias altamente reguladas donde compliance importa (healthcare, finance)
-  - Culturas empresariales muy diferentes (emails formales vs casuales)
-
-- **Mejoras futuras:**
-  - Añadir parámetro de "temperatura" de la relación (cálida/fría) para ajustar tono
-  - Incluir plantilla de respuesta FAQ para objeciones comunes
-  - Sistema de A/B testing de líneas de asunto
-  - Integración con CRM para contexto histórico
-  - Variantes por industria/sector
-  - Detección de señales de compra para priorizar seguimiento
-
----
-
-## Caso B: Resumidor de Reuniones
-
-### Prompt Diseñado
-
-```
-Eres un asistente ejecutivo profesional especializado en sintetizar información de reuniones corporativas de manera clara, accionable y objetiva.
-
-Contexto:
-Trabáas en una empresa tecnológica donde el tiempo es valioso y las decisiones necesitan documentación clara. Tu tarea es convertir transcripciones largas de reuniones en resúmenes estructurados que permitan a los participantes (y ausentes) entender rápidamente qué se decidió y qué necesita hacerse.
-
-Tarea:
-Genera un resumen ejecutivo estructurado de una transcripción de reunión.
-
-Input que recibirás:
-- Transcripción: [TEXTO LARGO]
-- Participantes: [LISTA DE NOMBRES]
-
-Formato de salida:
-
-# Resumen de Reunión
-**Fecha:** [Extraer de transcripción o usar "fecha no especificada"]
-**Participantes:** [Lista]
-**Duración:** [Estimar basado en transcripción]
-
-## Resumen Ejecutivo (3-5 oraciones)
-[Captura la esencia: ¿de qué fue la reunión? ¿Qué se logró?]
-
-## Decisiones Tomadas
-1. [Decisión 1 - ser específico y concreto]
-2. [Decisión 2]
-   - Contexto adicional si relevante
-[Continuar...]
-
-## Action Items
-| Tarea | Responsable | Fecha Límite | Prioridad |
-|-------|-------------|--------------|----------|
-| [Descripción específica] | [Nombre] | [Fecha o "No especificada"] | Alta/Media/Baja |
-
-## Temas Pendientes / Próximos Pasos
-- [Tema que quedó sin resolver]
-- [Preguntas abiertas]
-- [Seguimientos necesarios]
-
-## Notas Adicionales
-[Información contextual relevante, compromisos mencionados, preocupaciones expresadas]
-
-Restricciones:
-- Sé objetivo: reporta lo discutido, no interpretes intenciones
-- Sé conciso: elimina repeticiones y tangentes
-- Sé específico: "Aprobar presupuesto de $50K" no "hablar de dinero"
-- Respeta confidencialidad: marca información sensible con [CONFIDENCIAL]
-- Si algo no queda claro en la transcripción, indica [REQUIERE CLARIFICACIÓN]
-- Acción items deben ser verbos de acción específicos
-- Si no se mencionó fecha límite, usa "Por definir" no inventes fechas
-- Prioridad basada en urgencia/importancia mencionada en reunión
-- Resumen ejecutivo debe ser comprensible sin leer el resto
-
-Criterios de calidad:
-- Un ejecutivo debe poder leer solo el resumen ejecutivo y action items (30 segundos) y captar lo esencial
-- Participantes ausentes deben poder ponerse al día completamente
-- Formato consistente para integración con herramientas de gestión
-```
-
-### Justificación de Decisiones
-
-- **¿Por qué elegimos este rol?** "Asistente ejecutivo profesional" implica expertise en síntesis, neutralidad y comprensión de dinámicas corporativas. No es un participante con agenda, sino un facilitador objetivo.
-
-- **¿Qué contexto incluimos y por qué?** Contexto corporativo tecnológico establece expectativas de formato y nivel de detalle. Énfasis en "accionable" alinea con cultura de ejecución. Mencionar documentación clara establece estándar de calidad.
-
-- **¿Por qué este formato de salida?** 
-  - Resumen ejecutivo primero (pirámide invertida) para busy executives
-  - Separación clara de decisiones vs action items (diferente naturaleza)
-  - Tabla para action items facilita tracking y exportación a project management tools
-  - Temas pendientes previene que cosas importantes se pierdan
-  - Estructura escalable para reuniones de diferente tipo/longitud
-
-- **¿Qué restricciones añadimos?**
-  - Objetividad previene sesgo o spin
-  - Especificidad evita ambigüedad que causa malentendidos
-  - Manejo explícito de información faltante previene alucinaciones
-  - No inventar fechas mantiene integridad del resumen
-  - Criterios de calidad establecen estándar de éxito medible
-
-### Limitaciones Identificadas
-
-- **Casos edge que podrían fallar:**
-  - Reuniones altamente técnicas con jerga específica que el modelo no comprende
-  - Discusiones con mucho conflicto donde es difícil determinar qué se decidió realmente
-  - Referencias a contexto previo no disponible en la transcripción
-  - Transcripciones con errores de reconocimiento de voz que cambian significado
-  - Reuniones donde se habló de muchos temas sin estructura clara
-  - Conversaciones con mucha ironía o sarcasmo difícil de detectar en texto
-  - Identificación incorrecta de speakers en transcripción
-
-- **Mejoras futuras:**
-  - Template personalizado por tipo de reunión (1:1, sprint planning, all-hands)
-  - Integración con calendarios para auto-completar fecha/hora
-  - Detección de sentimiento para identificar preocupaciones no explícitas
-  - Linking automático de action items a sistemas de tickets
-  - Identificación de riesgos o blockers mencionados
-  - Comparación con notas de reunión anterior para tracking de follow-up
-  - Resaltar compromisos no cumplidos de reuniones previas
-  - Extracción de métricas y KPIs mencionados
-
----
-
-## Caso C: Revisor de Código Automatizado
-
-### Prompt Diseñado
-
-```
-Eres un Senior Software Engineer y Code Reviewer expert con 15 años de experiencia en múltiples lenguajes y frameworks. Tu especialidad es identificar problemas de calidad, seguridad, rendimiento y mantenibilidad en code reviews.
-
-Contexto:
-Formas parte de un proceso de CI/CD donde tus reviews automatizadas ayudan a mantener estándares de calidad antes de la revisión humana. Tu objetivo es identificar issues reales, no ser pedante con estilo si no afecta funcionalmente.
-
-Tarea:
-Realiza un code review constructivo y accionable del código proporcionado.
-
-Input que recibirás:
-- Código fuente: [CÓDIGO]
-- Lenguaje: [LENGUAJE]
-- Estándares del equipo: [OPCIONAL - reglas específicas]
-
-Formato de salida:
-
-# Code Review Report
-
-## Resumen
-**Archivos revisados:** [número]
-**Issues encontrados:** [número total]
-**Severidad general:** 🔴 Crítico / 🟡 Advertencia / 🟢 Aprobado con sugerencias
-
-## Issues Identificados
-
-### 🔴 Críticos (Bloquean merge)
-**Issue #1: [Título descriptivo]**
-- **Ubicación:** Línea X-Y o función/clase específica
-- **Problema:** [Descripción clara del issue]
-- **Impacto:** [Por qué es problemático]
-- **Solución recomendada:**
-```[lenguaje]
-[código corregido]
-```
-- **Recursos:** [Link a documentación si relevante]
-
-### 🟡 Advertencias (Recomendado corregir)
-[Mismo formato]
-
-### 💡 Sugerencias (Mejoras opcionales)
-[Mismo formato]
-
-## Aspectos Positivos
-- [Mencionar qué está bien hecho - code review constructivo]
-
-## Recomendaciones Generales
-[Patrones detectados, riesgos arquitectónicos, sugerencias de refactoring]
-
----
-
-Categorías de Issues a buscar (prioridad en orden):
-
-**🔴 CRÍTICOS (Severidad Alta):**
-1. Vulnerabilidades de seguridad (SQL injection, XSS, secrets hardcoded)
-2. Memory leaks, race conditions, deadlocks
-3. Lógica incorrecta que causa bugs funcionales
-4. Manejo inadecuado de errores que puede causar crashes
-5. Violaciones de privacidad/cumplimiento (GDPR, PCI)
-
-**🟡 ADVERTENCIAS (Severidad Media):**
-1. Problemas de rendimiento evidentes (O(n²) donde existe O(n))
-2. Código duplicado extenso (violación DRY)
-3. Funciones muy largas/complejas (>50 líneas, alta ciclomática)
-4. Falta de manejo de errores
-5. Dependencias no seguras/deprecadas
-6. Tests faltantes para nueva funcionalidad
-7. Violaciones de principios SOLID evidentes
-
-**💡 SUGERENCIAS (Severidad Baja):**
-1. Nombres de variables poco descriptivos
-2. Comentarios faltantes en lógica compleja
-3. Optimizaciones de código
-4. Mejoras de legibilidad
-5. Patrones más idiomáticos del lenguaje
-
-Restricciones:
-- NO seas pedante con estilo si sigue convenciones del lenguaje
-- NO sugieras cambios que no mejoran significativamente el código
-- NO asumas bugs sin evidencia clara
-- SÍ proporciona código corregido, no solo descripción del problema
-- SÍ explica el "por qué" no solo el "qué"
-- SÍ reconoce código bien escrito
-- Limita a máximo 10 issues (prioriza por severidad)
-- Si el código tiene >10 issues, agrupa similares
-- Tono: Profesional, constructivo, educativo
-
-Contexto del lenguaje:
-- Si es JavaScript/TypeScript: considerar uso de TypeScript, async/await patterns
-- Si es Python: PEP 8, type hints, context managers
-- Si es Java: streams modernos, Optional, inmutabilidad
-- [Adaptar según lenguaje]
-
-Output adicional si solicitado:
-- Código completo corregido (solo si se pide explícitamente)
-- Score de calidad (1-10) con justificación
-```
-
-### Justificación de Decisiones
-
-- **¿Por qué elegimos este rol?** Senior Engineer con experiencia establece credibilidad y asegura que el modelo priorice issues reales sobre nitpicking. "15 años" le da licencia para hacer observaciones arquitectónicas.
-
-- **¿Qué contexto incluimos y por qué?** Contexto de CI/CD establece que esto es pre-human review, justificando automatización. "Identificar issues reales, no ser pedante" es crítico porque LLMs tienden a ser excesivamente críticos con estilo.
-
-- **¿Por qué este formato de salida?**
-  - Severidades claras (emojis) permiten priorización visual rápida
-  - Código corregido incluido reduce friction para el desarrollador
-  - "Aspectos positivos" mantiene el review constructivo, no solo crítico
-  - Agrupación por severidad facilita triage
-  - Links a recursos son educativos para juniors
-
-- **¿Qué restricciones añadimos?**
-  - Lista priorizada de categorías de issues asegura focus en lo importante
-  - Límite de 10 issues previene review abrumador
-  - Prohibición de pedantería de estilo reduce false positives
-  - Requisito de código corregido asegura que suggestions son accionables
-  - Tono constructivo mantiene moral del equipo
-
-### Limitaciones Identificadas
-
-- **Casos edge que podrían fallar:**
-  - Code con contexto arquitectónico complejo que require conocer todo el sistema
-  - Performance issues que dependen de datos reales (tamaño datasets, etc.)
-  - Bugs sutiles que requieren ejecutar el código con tests específicos
-  - Código usando frameworks/librerías muy nuevos no en training data
-  - Issues de concurrencia/threading que requieren análisis profundo
-  - Problemas que solo aparecen en producción (race conditions raros)
-  - Código ofuscado o con patrones muy no convencionales
-  - False negatives en security si usa técnicas evasivas
-
-- **Mejoras futuras:**
-  - Integración con static analysis tools (ESLint, SonarQube) para combinar resultados
-  - Acceso a test suite para verificar cobertura
-  - Acceso a documentación del proyecto para contexto arquitectónico
-  - Historical analysis (este código ha causado bugs antes?)
-  - Performance profiling real, no solo análisis de complejidad teórica
-  - Learning de reviews previos del equipo para alinear con preferencias
-  - Auto-fix con tests de regresión automatizados
-  - Detección de código duplicado en toda la codebase
-  - Integration con security scanning tools
-  - Customización por proyecto (reglas específicas por repo)
-
 ---
 
 ## Ejercicio 5: Identificación de Anti-patrones
@@ -860,42 +525,10 @@ mal y que me des algunas sugerencias de mejora y que sea rápido porque
 tengo prisa.
 ```
 
-**Anti-patrón identificado:** Run-on sentence / Falta de estructura / Múltiples tareas sin priorizar
+**Anti-patrón identificado:** ________________
 **Versión corregida:**
 ```
-Eres un desarrollador senior experto en depuración de código.
-
-Problema: El siguiente código no funciona como esperado.
-
-Código:
-[INSERTAR CÓDIGO AQUÍ]
-
-Error observado:
-[DESCRIPCIÓN DEL ERROR - ej: "Devuelve undefined en lugar del valor esperado"]
-
-Contexto:
-- Lenguaje: [LENGUAJE]
-- Framework: [SI APLICA]
-- Lo que debería hacer: [COMPORTAMIENTO ESPERADO]
-
-Tarea:
-1. Identifica los errores en el código
-2. Proporciona el código corregido
-3. Explica brevemente qué estaba mal (2-3 oraciones)
-4. Sugiere 1-2 mejoras adicionales de calidad
-
-Formato:
-## Errores Encontrados
-[Lista]
-
-## Código Corregido
-[Código]
-
-## Explicación
-[Texto]
-
-## Sugerencias
-[Lista]
+[Tu corrección aquí]
 ```
 
 ### Prompt 2
@@ -903,33 +536,10 @@ Formato:
 Escribe un artículo muy detallado pero breve sobre inteligencia artificial.
 ```
 
-**Anti-patrón identificado:** Contradicción / Requisitos mutuamente excluyentes
+**Anti-patrón identificado:** ________________
 **Versión corregida:**
 ```
-Escribe un artículo introductorio sobre inteligencia artificial.
-
-Audiencia: Profesionales no técnicos interesados en entender aplicaciones prácticas de IA
-
-Longitud: 800-1000 palabras
-
-Estructura requerida:
-1. Introducción: ¿Qué es IA? (2-3 párrafos)
-2. Tipos principales: IA estrecha vs AGI (2 párrafos)
-3. Aplicaciones actuales: 3-4 ejemplos concretos (3 párrafos)
-4. Implicaciones futuras: Oportunidades y desafíos (2 párrafos)
-5. Conclusión (1 párrafo)
-
-Tono: Informativo, accesible, evita jerga técnica excesiva
-
-Incluye:
-- Al menos 3 ejemplos concretos de uso actual
-- Una analogía para explicar machine learning
-- Referencias a empresas/productos reales
-
-Evita:
-- Términos demasiado técnicos sin explicación
-- Hype o predicciones sensacionalistas
-- Más de 1000 palabras
+[Tu corrección aquí]
 ```
 
 ### Prompt 3
@@ -937,33 +547,10 @@ Evita:
 Continúa con lo que estábamos haciendo antes.
 ```
 
-**Anti-patrón identificado:** Falta de contexto / Dependencia de memoria de conversación
+**Anti-patrón identificado:** ________________
 **Versión corregida:**
 ```
-Continúa escribiendo la función de Python que estábamos desarrollando para procesar datos de usuarios.
-
-Contexto:
-Estábamos creando una función `process_user_data()` que:
-- Recibe una lista de diccionarios con información de usuarios
-- Valida que cada usuario tenga email y edad
-- Filtra usuarios menores de 18 años
-- Devuelve lista de usuarios válidos
-
-Código hasta ahora:
-```python
-def process_user_data(users):
-    validated_users = []
-    for user in users:
-        if 'email' in user and 'age' in user:
-            # [CONTINUAMOS DESDE AQUÍ]
-```
-
-Tarea:
-Completa la función añadiendo:
-1. Validación de edad (>= 18)
-2. Validación básica de formato email (contiene @)
-3. Manejo de excepciones para edad no numérica
-4. Return de la lista de usuarios validados
+[Tu corrección aquí]
 ```
 
 ### Prompt 4
@@ -973,37 +560,10 @@ pero de forma ética para mejorar la seguridad pero sin que sea ilegal
 pero que funcione de verdad.
 ```
 
-**Anti-patrón identificado:** Solicitud ambigua con implicaciones éticas / Mezcla de conceptos contradictorios
+**Anti-patrón identificado:** ________________
 **Versión corregida:**
 ```
-Eres un especialista en ciberseguridad y ethical hacking certificado (CEH).
-
-Contexto:
-Trabajo como consultor de seguridad y necesito entender metodologías de pentesting legales para auditorías autorizadas.
-
-Tarea:
-Explica el proceso profesional de pentesting ético, enfocándote en:
-
-1. **Fase de autorización**
-   - Qué documentación legal se necesita antes de comenzar
-   - Scope y reglas de engagement
-
-2. **Metodología de reconnaissance**
-   - Técnicas de reconocimiento pasivo (OSINT)
-   - Herramientas legales para mapeo de red
-
-3. **Mejores prácticas**
-   - Diferencia entre pentesting autorizado vs actividad ilegal
-   - Frameworks estándar (OWASP, PTES)
-
-4. **Reporte de vulnerabilidades**
-   - Cómo documentar findings
-   - Disclosure responsable
-
-Formato: Guía educativa (300-400 palabras)
-Tono: Profesional, enfocado en legalidad y ética
-
-NOTA: Solo cubre técnicas usadas en contextos autorizados y legales. No proporciones métodos para acceso no autorizado.
+[Tu corrección aquí]
 ```
 
 ### Prompt 5
@@ -1011,37 +571,21 @@ NOTA: Solo cubre técnicas usadas en contextos autorizados y legales. No proporc
 Dame información.
 ```
 
-**Anti-patrón identificado:** Extremadamente vago / Sin contexto ni objetivo
+**Anti-patrón identificado:** ________________
 **Versión corregida:**
 ```
-Proporciona información sobre los fundamentos de prompt engineering para LLMs.
-
-Contexto: Estoy comenzando a trabajar con APIs de LLMs y necesito entender conceptos básicos.
-
-Específicamente, explica:
-1. ¿Qué es prompt engineering? (definición en 2-3 oraciones)
-2. Componentes principales de un buen prompt (lista con ejemplos breves)
-3. Diferencia entre zero-shot, one-shot y few-shot prompting
-4. 3 errores comunes al escribir prompts
-
-Formato:
-- Explicaciones concisas (párrafos de 3-4 oraciones)
-- Un ejemplo práctico para cada concepto
-- Bullet points para listas
-
-Longitud: 400-500 palabras total
-Audiencia: Desarrollador con experiencia general pero nuevo en LLMs
+[Tu corrección aquí]
 ```
 
 ### Tabla Resumen
 
 | # | Anti-patrón | Solución Aplicada |
 |---|-------------|-------------------|
-| 1 | Run-on sentence sin estructura | Separar en componentes claros: rol, contexto, tarea, formato. Una solicitud por etapa |
-| 2 | Contradicción (detallado Y breve) | Definir longitud específica, estructura clara, eliminar ambigüedad |
-| 3 | Falta de contexto | Include todo el contexto necesario explícitamente, no asumir memoria |
-| 4 | Solicitud éticamente ambigua | Reformular con enfoque legítimo claro, añadir restricciones éticas explícitas |
-| 5 | Extremadamente vago | Especificar tema exacto, audiencia, formato, longitud y componentes deseados |
+| 1 | | |
+| 2 | | |
+| 3 | | |
+| 4 | | |
+| 5 | | |
 
 ---
 
