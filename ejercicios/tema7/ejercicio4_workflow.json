@@ -1,0 +1,244 @@
+{
+  "name": "Ejercicio 4 - Resumen Diario de Noticias IA",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8,
+              "triggerAtMinute": 0,
+              "weekdays": [1, 2, 3, 4, 5]
+            }
+          ]
+        }
+      },
+      "id": "node-schedule",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://newsapi.org/v2/everything",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "\"artificial intelligence\" OR \"inteligencia artificial\" OR \"AI agents\""
+            },
+            {
+              "name": "language",
+              "value": "es"
+            },
+            {
+              "name": "sortBy",
+              "value": "publishedAt"
+            },
+            {
+              "name": "pageSize",
+              "value": "10"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "node-newsapi",
+      "name": "HTTP Request: NewsAPI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "newsapi-credential",
+          "name": "NewsAPI Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-articles",
+              "leftValue": "={{ $json.totalResults }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-if-articles",
+      "name": "IF: Hay noticias?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "json",
+        "body": {
+          "model": "google/gemini-2.0-flash-exp:free",
+          "messages": [
+            {
+              "role": "system",
+              "content": "Eres un asistente especializado en resumir noticias de inteligencia artificial para un equipo tecnico.\n\nSe te proporciona un array JSON con los ultimos articulos sobre IA publicados hoy. Genera un resumen diario con las siguientes caracteristicas:\n\n- Titulo principal: \"Resumen de IA - [fecha de hoy en formato dd/MM/yyyy]\"\n- Selecciona entre 3 y 5 noticias destacadas priorizando las de mayor impacto tecnico o empresarial\n- Para cada noticia incluye:\n  * Titulo del articulo (en negrita)\n  * Fuente y fecha de publicacion\n  * Resumen de 2-3 frases explicando el contenido y su relevancia\n  * Enlace al articulo original\n- Al final incluye una seccion \"Tendencia del dia\" con un parrafo breve sobre el tema dominante\n- Tono: profesional e informativo, sin sensacionalismo\n- Idioma: espanol\n- Formato: HTML valido para que el email se renderice correctamente (usa <h2>, <h3>, <p>, <strong>, <a href>, <ul>, <li>)\n- Longitud total: entre 400 y 600 palabras"
+            },
+            {
+              "role": "user",
+              "content": "={{ 'Genera el resumen con los siguientes articulos:\\n' + JSON.stringify($json.articles, null, 2) }}"
+            }
+          ],
+          "max_tokens": 1500,
+          "temperature": 0.5
+        },
+        "options": {}
+      },
+      "id": "node-openrouter",
+      "name": "HTTP Request: OpenRouter LLM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 180],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "openrouter-credential",
+          "name": "OpenRouter - Mi cuenta"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "equipo@empresa.com",
+        "subject": "={{ 'Resumen IA - ' + $now.format('dd/MM/yyyy') }}",
+        "emailType": "html",
+        "message": "={{ $json.choices[0].message.content }}",
+        "options": {}
+      },
+      "id": "node-gmail",
+      "name": "Gmail: Enviar Resumen",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1120, 180],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail-credential",
+          "name": "Gmail - Mi cuenta"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-stop",
+              "name": "estado",
+              "value": "Sin noticias disponibles. Workflow detenido.",
+              "type": "string"
+            },
+            {
+              "id": "assign-ts",
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "id": "node-no-news",
+      "name": "Set: Sin Noticias",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [900, 420]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request: NewsAPI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request: NewsAPI": {
+      "main": [
+        [
+          {
+            "node": "IF: Hay noticias?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF: Hay noticias?": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request: OpenRouter LLM",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set: Sin Noticias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request: OpenRouter LLM": {
+      "main": [
+        [
+          {
+            "node": "Gmail: Enviar Resumen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid"
+  },
+  "versionId": "1"
+}

@@ -1,0 +1,210 @@
+{
+  "name": "Ejercicio 3 - Mi Primer Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        96
+      ],
+      "id": "e64516be-c8bf-4f6e-b2a5-c63cacefbdaa",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-001",
+              "name": "nombre",
+              "value": "María García",
+              "type": "string"
+            },
+            {
+              "id": "assign-002",
+              "name": "edad",
+              "value": 28,
+              "type": "number"
+            },
+            {
+              "id": "assign-003",
+              "name": "curso",
+              "value": "Aprendizaje Automático II",
+              "type": "string"
+            },
+            {
+              "id": "assign-004",
+              "name": "nota_final",
+              "value": 7.5,
+              "type": "number"
+            },
+            {
+              "id": "assign-005",
+              "name": "asistencia_porcentaje",
+              "value": 85,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9b643867-44fe-4521-9809-8646370c56e8",
+      "name": "Set: Datos Estudiante",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -64,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-001",
+              "leftValue": "={{ $json.nota_final }}",
+              "rightValue": 5,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b3b115d0-37bf-4283-8c5b-4738790cfda3",
+      "name": "IF: nota >= 5?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        176,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-006",
+              "name": "resultado",
+              "value": "Aprobado",
+              "type": "string"
+            },
+            {
+              "id": "assign-007",
+              "name": "mensaje",
+              "value": "=Enhorabuena, {{ $json.nombre }}. Has aprobado con un {{ $json.nota_final }}.",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "b1aa993b-39ab-4c56-8aed-54ca494c507e",
+      "name": "Set: Aprobado",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        384,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-008",
+              "name": "resultado",
+              "value": "Suspenso",
+              "type": "string"
+            },
+            {
+              "id": "assign-009",
+              "name": "mensaje",
+              "value": "=Lo sentimos, {{ $json.nombre }}. No has alcanzado la nota mínima.",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "80fa549b-6d3a-4917-81f4-984757bd59d6",
+      "name": "Set: Suspenso",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        384,
+        208
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set: Datos Estudiante",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set: Datos Estudiante": {
+      "main": [
+        [
+          {
+            "node": "IF: nota >= 5?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF: nota >= 5?": {
+      "main": [
+        [
+          {
+            "node": "Set: Aprobado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set: Suspenso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "62833fe6-061c-4c83-bea1-92262c4ed9e7",
+  "meta": {
+    "instanceId": "0f8d6160fa56acbf4438458a73d50d7cae53a5eca42b8bc82f88305dfff9093b"
+  },
+  "id": "W14gkR42R1Rd1zbRWeqB7",
+  "tags": []
+}

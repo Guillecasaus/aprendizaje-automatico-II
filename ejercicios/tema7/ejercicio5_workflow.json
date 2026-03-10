@@ -1,0 +1,68 @@
+{
+  "name": "Ejercicio 5 - Test IA",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "node-manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "json",
+        "body": {
+          "model": "google/gemini-2.0-flash-exp:free",
+          "messages": [
+            {
+              "role": "system",
+              "content": "Eres un asistente util que responde en espanol de forma concisa."
+            },
+            {
+              "role": "user",
+              "content": "Explica en 2 frases que es un agente de IA."
+            }
+          ],
+          "max_tokens": 150,
+          "temperature": 0.7
+        },
+        "options": {}
+      },
+      "id": "node-http-openrouter",
+      "name": "HTTP Request: OpenRouter",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "openrouter-credential",
+          "name": "OpenRouter - Mi cuenta"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request: OpenRouter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1"
+}
