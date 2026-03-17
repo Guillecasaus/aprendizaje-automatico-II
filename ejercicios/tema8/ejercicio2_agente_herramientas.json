@@ -1,0 +1,131 @@
+{
+  "name": "Agente con Herramientas",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "chat-trigger-2",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "# Rol\nEres un asistente de investigación inteligente llamado InvestiBot.\nTu especialidad es responder preguntas combinando búsquedas en Wikipedia\ncon cálculos matemáticos cuando sea necesario.\n\n# Tareas\n- Responde al mensaje del usuario de forma precisa y completa\n- Utiliza la herramienta Wikipedia para buscar información factual\n- Utiliza la herramienta Calculator para realizar cálculos matemáticos\n- Si una pregunta requiere tanto búsqueda como cálculo, usa ambas herramientas\n\n# Restricciones\n- Solo proporciona información que puedas verificar con Wikipedia\n- Si no encuentras información fiable, indícalo claramente\n- No inventes datos numéricos; usa la calculadora para operaciones precisas\n- Responde siempre en español\n\n# Formato de respuesta\n- Respuestas claras y bien estructuradas\n- Máximo 200 palabras por respuesta\n- Cita la fuente de Wikipedia cuando la uses\n- Muestra los cálculos realizados cuando uses la calculadora"
+        }
+      },
+      "id": "ai-agent-2",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-pro",
+        "options": {
+          "temperature": 0.7,
+          "maxOutputTokens": 1000
+        }
+      },
+      "id": "gemini-model-2",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        300,
+        520
+      ],
+      "credentials": {
+        "googleGeminiApi": {
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL_ID",
+          "name": "Google Gemini API"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "wikipedia-tool",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        460,
+        520
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "calculator-tool",
+      "name": "Calculator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        620,
+        520
+      ]
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-03-17T00:00:00.000Z",
+  "versionId": "1"
+}
