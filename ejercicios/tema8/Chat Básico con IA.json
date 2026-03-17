@@ -2,53 +2,56 @@
   "name": "Chat Básico con IA",
   "nodes": [
     {
-      "parameters": {},
-      "id": "chat-trigger-1",
+      "parameters": {
+        "options": {}
+      },
+      "id": "433b062e-d17f-4b27-9b26-10625c64be1e",
       "name": "When chat message received",
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        200,
-        300
-      ]
+        0,
+        0
+      ],
+      "webhookId": "d6279d3a-4efb-4053-bb09-8402f6b1ea35"
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "ai-agent-1",
+      "id": "d5b77f6b-2169-45f0-a2b3-df71161ed3fb",
       "name": "AI Agent",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        460,
-        300
+        272,
+        0
       ]
     },
     {
       "parameters": {
-        "modelName": "models/gemini-pro",
         "options": {
-          "temperature": 0.7,
-          "maxOutputTokens": 1000
+          "maxOutputTokens": 1000,
+          "temperature": 0.7
         }
       },
-      "id": "gemini-model-1",
+      "id": "78efe31f-c30d-4497-9e76-7a085870b0f2",
       "name": "Google Gemini Chat Model",
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        360,
-        520
+        160,
+        224
       ],
       "credentials": {
-        "googleGeminiApi": {
-          "id": "REPLACE_WITH_YOUR_CREDENTIAL_ID",
-          "name": "Google Gemini API"
+        "googlePalmApi": {
+          "id": "u1u4RrzSklY9MZDD",
+          "name": "Google Gemini(PaLM) Api account"
         }
       }
     }
   ],
+  "pinData": {},
   "connections": {
     "When chat message received": {
       "main": [
@@ -73,13 +76,16 @@
       ]
     }
   },
-  "pinData": {},
+  "active": false,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "availableInMCP": false
   },
-  "staticData": null,
-  "tags": [],
-  "triggerCount": 1,
-  "updatedAt": "2026-03-17T00:00:00.000Z",
-  "versionId": "1"
+  "versionId": "9da72b28-7901-4178-ba95-4cd3f0e5f1ca",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0f8d6160fa56acbf4438458a73d50d7cae53a5eca42b8bc82f88305dfff9093b"
+  },
+  "id": "d7G7_kbD4Acuk_xXDNgC8",
+  "tags": []
 }

@@ -2,14 +2,39 @@
   "name": "Agente con Herramientas y Memoria",
   "nodes": [
     {
-      "parameters": {},
-      "id": "chat-trigger-3",
+      "parameters": {
+        "options": {}
+      },
+      "id": "433b062e-d17f-4b27-9b26-10625c64be1e",
       "name": "When chat message received",
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        200,
-        300
+        0,
+        0
+      ],
+      "webhookId": "d6279d3a-4efb-4053-bb09-8402f6b1ea35"
+    },
+    {
+      "parameters": {},
+      "id": "aa478b55-8dae-4fcf-9c91-b55e689db523",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        176,
+        224
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "8b45873a-149e-4922-96d9-32da62fc2855",
+      "name": "Calculator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        336,
+        224
       ]
     },
     {
@@ -18,93 +43,59 @@
           "systemMessage": "# Rol\nEres un asistente de investigación inteligente llamado InvestiBot.\nTu especialidad es responder preguntas combinando búsquedas en Wikipedia\ncon cálculos matemáticos cuando sea necesario.\n\n# Tareas\n- Responde al mensaje del usuario de forma precisa y completa\n- Utiliza la herramienta Wikipedia para buscar información factual\n- Utiliza la herramienta Calculator para realizar cálculos matemáticos\n- Si una pregunta requiere tanto búsqueda como cálculo, usa ambas herramientas\n\n# Restricciones\n- Solo proporciona información que puedas verificar con Wikipedia\n- Si no encuentras información fiable, indícalo claramente\n- No inventes datos numéricos; usa la calculadora para operaciones precisas\n- Responde siempre en español\n\n# Formato de respuesta\n- Respuestas claras y bien estructuradas\n- Máximo 200 palabras por respuesta\n- Cita la fuente de Wikipedia cuando la uses\n- Muestra los cálculos realizados cuando uses la calculadora"
         }
       },
-      "id": "ai-agent-3",
-      "name": "AI Agent",
+      "id": "95336e9a-d44d-4b6d-9e88-4eb048f87ee3",
+      "name": "AI Agent1",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        460,
-        300
+        176,
+        0
       ]
     },
     {
       "parameters": {
-        "modelName": "models/gemini-pro",
         "options": {
-          "temperature": 0.7,
-          "maxOutputTokens": 1000
+          "maxOutputTokens": 1000,
+          "temperature": 0.7
         }
       },
-      "id": "gemini-model-3",
-      "name": "Google Gemini Chat Model",
+      "id": "80b972ec-0183-4864-af39-b4c88fadc395",
+      "name": "Google Gemini Chat Model1",
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        260,
-        520
+        16,
+        224
       ],
       "credentials": {
-        "googleGeminiApi": {
-          "id": "REPLACE_WITH_YOUR_CREDENTIAL_ID",
-          "name": "Google Gemini API"
+        "googlePalmApi": {
+          "id": "u1u4RrzSklY9MZDD",
+          "name": "Google Gemini(PaLM) Api account"
         }
       }
     },
     {
-      "parameters": {},
-      "id": "wikipedia-tool-3",
-      "name": "Wikipedia",
-      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
-      "typeVersion": 1,
-      "position": [
-        420,
-        520
-      ]
-    },
-    {
-      "parameters": {},
-      "id": "calculator-tool-3",
-      "name": "Calculator",
-      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
-      "typeVersion": 1,
-      "position": [
-        560,
-        520
-      ]
-    },
-    {
       "parameters": {
-        "sessionIdType": "fromInput",
         "contextWindowLength": 10
       },
-      "id": "memory-3",
+      "id": "e2ce1206-f4c3-4cf1-80e5-2c9600fffcc1",
       "name": "Window Buffer Memory",
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.2,
       "position": [
-        700,
-        520
+        480,
+        224
       ]
     }
   ],
+  "pinData": {},
   "connections": {
     "When chat message received": {
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -114,7 +105,7 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "ai_tool",
             "index": 0
           }
@@ -125,8 +116,19 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -136,7 +138,7 @@
       "ai_memory": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "ai_memory",
             "index": 0
           }
@@ -144,13 +146,16 @@
       ]
     }
   },
-  "pinData": {},
+  "active": false,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "availableInMCP": false
   },
-  "staticData": null,
-  "tags": [],
-  "triggerCount": 1,
-  "updatedAt": "2026-03-17T00:00:00.000Z",
-  "versionId": "1"
+  "versionId": "0b7c5af4-4c06-432c-9bc1-b55e045298e2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0f8d6160fa56acbf4438458a73d50d7cae53a5eca42b8bc82f88305dfff9093b"
+  },
+  "id": "d7G7_kbD4Acuk_xXDNgC8",
+  "tags": []
 }
