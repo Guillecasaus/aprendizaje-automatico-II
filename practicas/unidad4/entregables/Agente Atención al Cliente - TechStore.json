@@ -1,0 +1,163 @@
+{
+  "name": "Agente Atención al Cliente - TechStore",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "dac0b996-8af5-4b1f-b703-3f9302a5787d",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "techstore-chat-webhook"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "# Rol\nEres TechBot, el asistente virtual de atención al cliente de TechStore, una tienda online especializada en accesorios y periféricos tecnológicos. Tu objetivo es ayudar a los clientes de forma amable, honesta y profesional.\n\n# Tareas\n- Cuando un cliente pregunte por productos, usa SIEMPRE la herramienta de Google Sheets para consultar el inventario actualizado antes de responder\n- Informa sobre disponibilidad (stock), precios y características de los productos\n- Ayuda al cliente a encontrar el producto más adecuado para sus necesidades\n- Responde sobre las políticas de la tienda cuando se te pregunte\n\n# Restricciones\n- NUNCA inventes productos que no aparezcan en el inventario\n- NUNCA afirmes que un producto está disponible si su stock es 0\n- NO modifiques los precios ni la información del inventario\n- Si un producto no existe en el catálogo, dilo honestamente y ofrece alternativas similares si las hay\n- No hagas promesas de entrega o disponibilidad futura que no puedas garantizar\n\n# Políticas de la tienda\n- **Envíos:** Envío gratuito en pedidos superiores a 50€. Entrega estimada: 3-5 días laborables\n- **Devoluciones:** 30 días naturales para devoluciones sin necesidad de justificación, producto en buen estado\n- **Garantía:** 2 años de garantía oficial en todos los productos\n- **Pago:** Tarjeta bancaria, PayPal y transferencia bancaria\n- **Atención:** Lunes a viernes de 9h a 18h en soporte@techstore.es\n\n# Formato de respuesta\n- Tono amable, cercano y profesional\n- Cuando listes productos, muestra: nombre, precio y disponibilidad (unidades en stock o \"Agotado\")\n- Respuestas concisas, máximo 250 palabras\n- Si el cliente duda entre varios productos, ayúdale a elegir haciendo preguntas sobre su uso"
+        }
+      },
+      "id": "971b6ae1-40bb-47fd-8848-b6a73b409526",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        288,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "id": "186900ec-a320-49a1-a5ff-63da7f7c9e23",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        224
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "9rD8BoejmXnnLH3z",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "id": "05bd011c-ab99-4c43-ab14-e4ca6e72c355",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        288,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Consulta el inventario completo de productos de la tienda TechStore. Úsala SIEMPRE que el cliente pregunte por productos disponibles, precios, stock o características de cualquier artículo del catálogo. Devuelve todos los productos con sus columnas: ID, Nombre, Descripción, Precio (€), Stock y Categoría.",
+        "documentId": {
+          "__rl": true,
+          "value": "11HSagGEuuSz1zuETtQDpS10howPREoFIw7EdXjfPc1k",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11HSagGEuuSz1zuETtQDpS10howPREoFIw7EdXjfPc1k/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "3e74291f-9ad4-4160-920a-243a37fed71d",
+      "name": "Google Sheets - Inventario",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        512,
+        224
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "MPXkMCkhvW5L2aqN",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Inventario": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c15fa529-d61f-4432-9288-0b92bc8303a3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6b5aa37397752447666f810e2853864b0cb7ace17aa8c2d14b225ec092280385"
+  },
+  "id": "1E2qZEktbCLOhzN7",
+  "tags": []
+}
