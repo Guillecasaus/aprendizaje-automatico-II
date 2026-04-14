@@ -1,5 +1,5 @@
 .claude
 .env
 practicas/unidad5/rag_env
-practicas/unidad5/_pycache_
+practicas/unidad5/__pycache__
 practicas/unidad5/generar_informe.py
