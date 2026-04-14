@@ -7,9 +7,12 @@ import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
 
 # Cargar variables de entorno
 load_dotenv()
@@ -25,8 +28,18 @@ def cargar_base_vectorial(ruta_db: str = "./chroma_db"):
     print(f"Base vectorial cargada: {vectorstore._collection.count()} vectores")
     return vectorstore
 
+# Almacén de historiales por sesión (en memoria, dura lo que dura el proceso)
+_store: dict[str, BaseChatMessageHistory] = {}
+
+
+def get_session_history(session_id: str) -> BaseChatMessageHistory:
+    if session_id not in _store:
+        _store[session_id] = ChatMessageHistory()
+    return _store[session_id]
+
+
 def crear_cadena_rag(vectorstore):
-    """Crea la cadena RAG con LCEL (LangChain Expression Language)."""
+    """Crea la cadena RAG con LCEL y memoria conversacional en sesión."""
 
     # Configurar retriever
     retriever = vectorstore.as_retriever(
@@ -40,7 +53,7 @@ def crear_cadena_rag(vectorstore):
         temperature=0.3
     )
 
-    # Prompt template
+    # Prompt template con historial de conversación
     template = ChatPromptTemplate.from_messages([
         ("system", """Eres el asistente virtual de TechCorp, especializado en responder
 preguntas sobre la documentación interna de la empresa.
@@ -56,6 +69,7 @@ INSTRUCCIONES:
 
 CONTEXTO DE DOCUMENTOS INTERNOS:
 {context}"""),
+        MessagesPlaceholder(variable_name="chat_history"),
         ("human", "{question}")
     ])
 
@@ -66,18 +80,27 @@ CONTEXTO DE DOCUMENTOS INTERNOS:
             for doc in docs
         )
 
-    # Construir cadena con LCEL
+    # Construir cadena con LCEL (input como dict)
     cadena = (
         {
-            "context": retriever | formatear_docs,
-            "question": RunnablePassthrough()
+            "context": (lambda x: x["question"]) | retriever | formatear_docs,
+            "question": lambda x: x["question"],
+            "chat_history": lambda x: x.get("chat_history", [])
         }
         | template
         | llm
         | StrOutputParser()
     )
 
-    return cadena, retriever
+    # Envolver con gestión automática del historial
+    cadena_con_memoria = RunnableWithMessageHistory(
+        cadena,
+        get_session_history,
+        input_messages_key="question",
+        history_messages_key="chat_history"
+    )
+
+    return cadena_con_memoria, retriever
 
 def main():
     """Ejecuta el asistente en modo interactivo por CLI."""
@@ -112,8 +135,11 @@ def main():
                 fuente = doc.metadata.get("source", "desconocida")
                 print(f"  {i}. {fuente} - {doc.page_content[:80]}...")
 
-            # Generar respuesta
-            respuesta = cadena.invoke(pregunta)
+            # Generar respuesta (con memoria de sesión)
+            respuesta = cadena.invoke(
+                {"question": pregunta},
+                config={"configurable": {"session_id": "cli"}}
+            )
             print(f"\nAsistente: {respuesta}")
 
         except Exception as e:

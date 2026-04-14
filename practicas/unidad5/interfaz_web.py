@@ -6,7 +6,10 @@ vectorstore = cargar_base_vectorial()
 cadena, _ = crear_cadena_rag(vectorstore)
 
 def responder(pregunta, historial):
-    respuesta = cadena.invoke(pregunta)
+    respuesta = cadena.invoke(
+        {"question": pregunta},
+        config={"configurable": {"session_id": "web"}}
+    )
     historial.append({"role": "user", "content": pregunta})
     historial.append({"role": "assistant", "content": respuesta})
     return "", historial
