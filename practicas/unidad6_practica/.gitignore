@@ -5,3 +5,4 @@ __pycache__/
 .env
 .venv/
 claude_desktop_config.json
+generar_informe.py
