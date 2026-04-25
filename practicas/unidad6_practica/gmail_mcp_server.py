@@ -13,8 +13,9 @@ SCOPES = [
     "https://www.googleapis.com/auth/gmail.modify",
 ]
 
-CREDENTIALS_FILE = "credentials.json"
-TOKEN_FILE = "token.json"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CREDENTIALS_FILE = os.path.join(BASE_DIR, "credentials.json")
+TOKEN_FILE = os.path.join(BASE_DIR, "token.json")
 
 mcp = FastMCP("Gmail MCP Server")
 
@@ -23,17 +24,17 @@ def get_gmail_service():
     """Autentica con OAuth y devuelve el servicio de Gmail."""
     creds = None
 
-    if os.path.exists("token.json"):
-        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+    if os.path.exists(TOKEN_FILE):
+        creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_FILE, SCOPES)
             creds = flow.run_local_server(port=0)
 
-        with open("token.json", "w") as token:
+        with open(TOKEN_FILE, "w") as token:
             token.write(creds.to_json())
 
     return build("gmail", "v1", credentials=creds)
@@ -97,11 +98,22 @@ def send_email(to: str, subject: str, body: str) -> str:
         body={"raw": raw}
     ).execute()
 
-    return f"Email enviado correctamente. ID: {send_message['id']}"
+    return f"Email enviado correctamente.\nDestinatario: {to}\nAsunto: {subject}\nID del mensaje: {send_message['id']}"
 
 
 # ============== RESOURCES ==============
 
+
+@mcp.tool()
+def get_gmail_profile() -> str:
+    """Obtiene el perfil del usuario de Gmail: dirección de email, total de mensajes e hilos."""
+    service = get_gmail_service()
+    profile = service.users().getProfile(userId="me").execute()
+    return (
+        f"Email: {profile.get('emailAddress', 'No disponible')}\n"
+        f"Total de mensajes: {profile.get('messagesTotal', 0)}\n"
+        f"Hilos totales: {profile.get('threadsTotal', 0)}"
+    )
 
 
 @mcp.resource("gmail://profile")
