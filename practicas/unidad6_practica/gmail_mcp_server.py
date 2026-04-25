@@ -138,4 +138,9 @@ El email debe ser claro, conciso y apropiado para el tono indicado.
 Incluye un saludo, el cuerpo del mensaje y una despedida adecuada."""
 
 if __name__ == "__main__":
+    # Fuerza la autenticación OAuth antes de arrancar el servidor MCP.
+    # La primera vez abre el navegador; las siguientes usa token.json cacheado.
+    print("Autenticando con Gmail...")
+    get_gmail_service()
+    print("Autenticación completada. Arrancando servidor MCP...")
     mcp.run()
